@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'course project';
   navTo: string;
+
   getNavigate(value: string) {
     this.navTo = value;
   }
