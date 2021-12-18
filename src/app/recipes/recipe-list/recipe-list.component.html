@@ -9,7 +9,6 @@
     <app-recipe-item
       *ngFor="let recipeEL of recipes"
       [recipe]="recipeEL"
-      (recipeIdEmit)="getIdFromList($event)"
     ></app-recipe-item>
   </div>
 </div>

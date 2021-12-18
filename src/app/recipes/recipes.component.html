@@ -1,14 +1,10 @@
 <div class="row">
   <div class="col-md-5">
-    <app-recipe-list
-      (sendRecipeIdEmit)="recieveIdFromList($event)"
-      (sendRecipesAll)="recieveAllRecipes($event)"
-    ></app-recipe-list>
+    <app-recipe-list></app-recipe-list>
   </div>
   <div class="col-md-7">
     <app-recipe-detail
       [recipeFrom]="allRecipeEl"
-      [clickedIdFrom]="clickedId"
       *ngFor="let allRecipeEl of allRecipes"
     ></app-recipe-detail>
   </div>
