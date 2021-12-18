@@ -1,4 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { Ingredient } from '../shared/ingredient.model';
+import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Recipe } from './recipe.model';
 
 @Injectable({
@@ -13,7 +15,10 @@ export class RecipesService {
       'This is simply a test',
       'https://cdn.loveandlemons.com/wp-content/uploads/2020/03/bean-recipes-1.jpg',
       'Description for 122335',
-      'Ingredients for 122335'
+      [
+        new Ingredient('Meat',1),
+        new Ingredient('French Fries',20)
+      ]
     ),
     new Recipe(
       335642,
@@ -21,11 +26,17 @@ export class RecipesService {
       'This is simply a test2',
       'https://cdn.loveandlemons.com/wp-content/uploads/2020/03/bean-recipes-1.jpg',
       'Description for 335642',
-      'Ingredients for 335642'
+      [
+        new Ingredient('Buns',2),
+        new Ingredient('Meat',1)
+      ]
     ),
   ];
-  constructor() {}
+  constructor(private shoppingList:ShoppingListService) {}
   getRecipes() {
     return this.recipes.slice();
+  }
+  addIngredientsToShoppingList(ingredients:Ingredient[]){
+    this.shoppingList.addIngredients(ingredients);
   }
 }
