@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Recipe } from './../recipe.model';
 
 @Component({
@@ -7,12 +8,16 @@ import { Recipe } from './../recipe.model';
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.css'],
 })
-export class RecipeListComponent implements OnInit {
+export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[] = [];
+  paramsSubscription: Subscription;
   constructor(private router: ActivatedRoute) {}
   ngOnInit() {
-    this.router.data.subscribe((data: Data) => {
+    this.paramsSubscription = this.router.data.subscribe((data: Data) => {
       this.recipes = data['recipe'];
     });
+  }
+  ngOnDestroy(): void {
+    this.paramsSubscription.unsubscribe();
   }
 }

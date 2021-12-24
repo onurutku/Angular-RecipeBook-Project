@@ -37,6 +37,13 @@ export class RecipesService {
       }
     }
   }
+  updateRecipe(id: number) {
+    for (let recipe of this.recipes) {
+      if (recipe.id === id) {
+        return recipe;
+      }
+    }
+  }
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.shoppingList.addIngredients(ingredients);
   }

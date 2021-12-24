@@ -35,7 +35,11 @@
             style="cursor: pointer"
             >To Shopping List</a
           >
-          <a class="dropdown-item">Edit Recipe</a>
+          <a
+            [routerLink]="['/recipes', recipe.id, 'edit']"
+            class="dropdown-item"
+            >Edit Recipe</a
+          >
           <a class="dropdown-item">Delete Recipe</a>
         </div>
       </div>
