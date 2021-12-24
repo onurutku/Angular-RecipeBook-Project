@@ -15,10 +15,7 @@ export class RecipesService {
       'This is simply a test',
       'https://cdn.loveandlemons.com/wp-content/uploads/2020/03/bean-recipes-1.jpg',
       'Description for 122335',
-      [
-        new Ingredient('Meat',1),
-        new Ingredient('French Fries',20)
-      ]
+      [new Ingredient('Meat', 1), new Ingredient('French Fries', 20)]
     ),
     new Recipe(
       335642,
@@ -26,17 +23,21 @@ export class RecipesService {
       'This is simply a test2',
       'https://cdn.loveandlemons.com/wp-content/uploads/2020/03/bean-recipes-1.jpg',
       'Description for 335642',
-      [
-        new Ingredient('Buns',2),
-        new Ingredient('Meat',1)
-      ]
+      [new Ingredient('Buns', 2), new Ingredient('Meat', 1)]
     ),
   ];
-  constructor(private shoppingList:ShoppingListService) {}
+  constructor(private shoppingList: ShoppingListService) {}
   getRecipes() {
     return this.recipes.slice();
   }
-  addIngredientsToShoppingList(ingredients:Ingredient[]){
+  getRecipe(id: number) {
+    for (let recipe of this.recipes) {
+      if (recipe.id === id) {
+        return recipe;
+      }
+    }
+  }
+  addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.shoppingList.addIngredients(ingredients);
   }
 }

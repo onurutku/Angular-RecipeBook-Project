@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Ingredient } from 'src/app/shared/ingredient.model';
-import { ShoppingListService } from 'src/app/shopping-list/shopping-list.service';
 import { RecipesService } from '../recipes.service';
 import { Recipe } from './../recipe.model';
 
@@ -9,16 +10,25 @@ import { Recipe } from './../recipe.model';
   templateUrl: './recipe-detail.component.html',
   styleUrls: ['./recipe-detail.component.css'],
 })
-export class RecipeDetailComponent {
-  clickedId: Recipe;
-  @Input() recipeFrom: any;
+export class RecipeDetailComponent implements OnInit, OnDestroy {
+  clickedId: number;
+  recipe: Recipe;
+  paramsSubscription: Subscription;
 
-  constructor(private recipesServices: RecipesService, private recipeToShoppingList:ShoppingListService) {
-    this.recipesServices.recipeSelected.subscribe((selectedId) => {
-      this.clickedId = selectedId;
+  constructor(
+    private recipesServices: RecipesService,
+    private route: ActivatedRoute
+  ) {}
+  toShoppingList(ingredients: Ingredient[]) {
+    this.recipesServices.addIngredientsToShoppingList(ingredients);
+  }
+  ngOnInit() {
+    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
+      this.clickedId = +params['id'];
+      this.recipe = this.recipesServices.getRecipe(this.clickedId);
     });
   }
-  toShoppingList(){
-    this.recipesServices.addIngredientsToShoppingList(this.recipeFrom.ingredients)
+  ngOnDestroy() {
+    this.paramsSubscription.unsubscribe();
   }
 }

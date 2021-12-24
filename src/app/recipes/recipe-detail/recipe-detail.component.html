@@ -1,9 +1,9 @@
-<div *ngIf="recipeFrom.id === clickedId">
+<div *ngIf="recipe.id === clickedId">
   <div class="row">
     <div class="col-xs-12">
       <img
         style="max-height: 300px"
-        src="{{ recipeFrom.imagePath }}"
+        src="{{ recipe.imagePath }}"
         alt=""
         class="img-responsive"
       />
@@ -11,7 +11,7 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <h1>{{ recipeFrom.name }}</h1>
+      <h1>{{ recipe.name }}</h1>
     </div>
   </div>
   <div class="row">
@@ -30,7 +30,7 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <a
-            (click)="toShoppingList(recipeFrom.ingredients)"
+            (click)="toShoppingList(recipe.ingredients)"
             class="dropdown-item"
             style="cursor: pointer"
             >To Shopping List</a
@@ -42,13 +42,13 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12">{{ recipeFrom.description }}</div>
+    <div class="col-xs-12">{{ recipe.description }}</div>
   </div>
   <div class="row">
     <div class="col-xs-12">
       <ul class="list-group">
         <li
-          *ngFor="let ingredient of recipeFrom.ingredients"
+          *ngFor="let ingredient of recipe.ingredients"
           class="list-group-item"
         >
           {{ ingredient.name }} - {{ ingredient.amount }}

@@ -14,6 +14,8 @@ import { DropdownDirective } from './shared/dropdown.directive';
 import { ShoppingListService } from './shopping-list/shopping-list.service';
 import { AppRoutingModule } from './app-routing.module';
 import { ErrorComponent } from './error/error.component';
+import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
+import { RecipeResolverService } from './recipes/recipe-resolver.service';
 
 @NgModule({
   declarations: [
@@ -27,9 +29,10 @@ import { ErrorComponent } from './error/error.component';
     ShoppingEditComponent,
     DropdownDirective,
     ErrorComponent,
+    RecipeStartComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule],
-  providers: [ShoppingListService],
+  providers: [ShoppingListService, RecipeResolverService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
