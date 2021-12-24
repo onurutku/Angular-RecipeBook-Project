@@ -10,6 +10,7 @@ export class ShoppingEditComponent {
 
   constructor(private shoppingList:ShoppingListService) {}
   addIngredients(name: string, amount: number) {
+
     const newIngredient=new Ingredient(name,amount);
     this.shoppingList.addIngredient(newIngredient);
   }
