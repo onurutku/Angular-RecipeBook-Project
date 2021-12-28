@@ -3,77 +3,76 @@
     <h4>{{ message }}</h4>
   </div>
 </div>
-<!-- <form>
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-xs-12">
-      <div class="input-group">
-        <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" [formControlName]="'name'" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" [formControlName]="'title'" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="imgPath">Path</label>
         <input
-          id="name"
-          class="form-control"
           type="text"
-          value="{{ recipe.name || null }}"
+          class="form-control"
+          [formControlName]="'imagePath'"
         />
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <div class="input-group">
-        <span class="input-group-text" id="inputGroup-sizing-sm"
-          >Description</span
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          rows="6"
+          [formControlName]="'description'"
         >
-        <input
-          id="description"
-          class="form-control"
-          type="text"
-          value="{{ recipe.desc }}"
-        />
+        </textarea>
       </div>
     </div>
   </div>
+  <h4>Ingredients</h4>
+  <button (click)="addIngredient()" class="btn btn-primary btn-sm">Add</button>
+  <hr />
   <div class="row">
-    <div class="col-xs-12">
-      <div class="input-group">
-        <span class="input-group-text" id="inputGroup-sizing-sm">Image</span>
-        <input
-          id="image"
-          class="form-control"
-          type="text"
-          value="{{ recipe.imagePath }}"
-        />
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="input-group">
-        <span class="input-group-text" id="inputGroup-sizing-sm">About</span>
-        <input
-          id="about"
-          class="form-control"
-          type="text"
-          value="{{ recipe.description }}"
-        />
-      </div>
-    </div>
-  </div>
-  <h5>Ingredients</h5>
-  <div class="row" *ngFor="let ingredient of recipe.ingredients; let i = index">
-    <div class="col-xs-12">
-      <div class="input-group">
-        <span class="input-group-text" id="inputGroup-sizing-sm"
-          >Ingredient-{{ i + 1 }}</span
-        >
-        <input
-          id="ingredient"
-          class="form-control"
-          type="text"
-          value="{{ ingredient.name }}--{{ ingredient.amount }}"
-        />
+    <div class="col-xs-12" [formArrayName]="'ingredients'">
+      <div
+        class="input-group"
+        *ngFor="let ingredient of getControls(); let i = index"
+        [formGroupName]="i"
+      >
+        <div class="col-xs-8">
+          <input class="form-control" type="text" [formControlName]="'name'" />
+        </div>
+        &nbsp;
+        <div class="col-xs-2">
+          <input
+            class="form-control"
+            type="number"
+            [formControlName]="'amount'"
+          />
+        </div>
+        &nbsp;
+        <div class="col-xs-2">
+          <button class="btn btn-danger">X</button>
+        </div>
       </div>
     </div>
   </div>
   <hr />
   <button class="btn btn-success float-end">Save</button>
-</form> -->
+</form>
