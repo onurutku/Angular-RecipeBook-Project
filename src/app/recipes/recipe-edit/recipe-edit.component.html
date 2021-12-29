@@ -28,8 +28,18 @@
           type="text"
           class="form-control"
           [formControlName]="'imagePath'"
+          #imagePath
         />
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <img
+        style="max-height: 300px; width: 100%"
+        [src]="imagePath.value"
+        class="img-responsive"
+      />
     </div>
   </div>
   <div class="row">
