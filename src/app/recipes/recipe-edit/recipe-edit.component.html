@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <h4>{{ message }}</h4>
+    <h4 class="message">{{ message }}</h4>
   </div>
 </div>
 <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
@@ -45,21 +45,24 @@
       </div>
     </div>
   </div>
-  <h4>Ingredients</h4>
-  <button (click)="addIngredient()" class="btn btn-primary btn-sm">Add</button>
-  <hr />
+  <h4 class="mt-2">
+    Ingredients
+    <button type="button" (click)="addControl()" class="btn btn-primary btn-sm">
+      Add
+    </button>
+  </h4>
   <div class="row">
-    <div class="col-xs-12" [formArrayName]="'ingredients'">
+    <div class="col-sm-12" [formArrayName]="'ingredients'">
       <div
         class="input-group"
         *ngFor="let ingredient of getControls(); let i = index"
         [formGroupName]="i"
       >
-        <div class="col-xs-8">
+        <div class="col-sm-7 me-3">
           <input class="form-control" type="text" [formControlName]="'name'" />
         </div>
         &nbsp;
-        <div class="col-xs-2">
+        <div class="col-sm-3 me-3">
           <input
             class="form-control"
             type="number"
@@ -67,12 +70,18 @@
           />
         </div>
         &nbsp;
-        <div class="col-xs-2">
-          <button class="btn btn-danger">X</button>
-        </div>
+        <button type="button" (click)="deleteControl(i)" class="btn btn-danger">
+          X
+        </button>
       </div>
     </div>
   </div>
   <hr />
-  <button class="btn btn-success float-end">Save</button>
+  <button
+    type="submit"
+    [disabled]="editForm.invalid"
+    class="btn btn-success float-end"
+  >
+    {{ editMode ? "Update" : "Save" }}
+  </button>
 </form>

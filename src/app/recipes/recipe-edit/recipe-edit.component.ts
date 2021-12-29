@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Data, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { RecipesService } from '../recipes.service';
 import { Recipe } from './../recipe.model';
 
@@ -10,47 +9,48 @@ import { Recipe } from './../recipe.model';
   templateUrl: './recipe-edit.component.html',
   styleUrls: ['./recipe-edit.component.css'],
 })
-export class RecipeEditComponent implements OnInit, OnDestroy {
+export class RecipeEditComponent implements OnInit {
   editForm: FormGroup;
   message: string;
   id: number;
-  recipe: Recipe;
+  recipe = <Recipe>{};
   editMode: boolean = false;
-  paramsSubcription: Subscription;
   constructor(
     private route: ActivatedRoute,
-    private recipesService: RecipesService
+    private recipesService: RecipesService,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.paramsSubcription = this.route.data.subscribe((data: Data) => {
+  ngOnInit() {
+    this.editMode = this.route.snapshot.queryParams.editMode;
+    this.route.data.subscribe((data: Data) => {
       this.message = data['message'];
     });
-    this.paramsSubcription = this.route.params.subscribe((params: Params) => {
+    this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
     });
   }
   private initForm() {
+    const ingrediental = new FormArray([]);
     if (this.editMode === true) {
       this.recipe = this.recipesService.getRecipe(this.id);
-    }
-    const ingrediental = new FormArray([]);
-    if (this.recipe.ingredients) {
-      for (let ingredient of this.recipe.ingredients) {
-        ingrediental.push(
-          new FormGroup({
-            name: new FormControl(ingredient.name),
-            amount: new FormControl(ingredient.amount),
-          })
-        );
+      if (this.recipe.ingredients) {
+        for (let ingredient of this.recipe.ingredients) {
+          ingrediental.push(
+            new FormGroup({
+              name: new FormControl(ingredient.name),
+              amount: new FormControl(ingredient.amount),
+            })
+          );
+        }
       }
     }
     this.editForm = new FormGroup({
-      name: new FormControl(this.recipe.name),
-      title: new FormControl(this.recipe.desc),
-      imagePath: new FormControl(this.recipe.imagePath),
+      name: new FormControl(this.recipe.name, Validators.required),
+      title: new FormControl(this.recipe.desc, Validators.required),
+      imagePath: new FormControl(this.recipe.imagePath, Validators.required),
       description: new FormControl(this.recipe.description),
       ingredients: ingrediental,
     });
@@ -58,9 +58,32 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   getControls() {
     return (<FormArray>this.editForm.get('ingredients')).controls;
   }
-  ngOnDestroy(): void {
-    this.paramsSubcription.unsubscribe();
+  addControl() {
+    const newGroup = new FormGroup({
+      name: new FormControl(null, Validators.required),
+      amount: new FormControl(null, [Validators.required, Validators.min(0)]),
+    });
+    (this.editForm.get('ingredients') as FormArray).push(newGroup);
   }
-  onSubmit() {}
-  addIngredient() {}
+  deleteControl(index: number) {
+    (this.editForm.get('ingredients') as FormArray).removeAt(index);
+  }
+  onSubmit() {
+    const generateId = Math.floor(Math.random() * 1000000);
+    const editedRecipe = new Recipe(
+      generateId,
+      this.editForm.get('name').value,
+      this.editForm.get('title').value,
+      this.editForm.get('imagePath').value,
+      this.editForm.get('description').value,
+      this.editForm.get('ingredients').value
+    );
+    if (this.editMode) {
+      this.recipesService.updateRecipes(this.id, editedRecipe);
+    } else {
+      this.recipesService.addRecipe(editedRecipe);
+      this.router.navigate(['/recipes', generateId]);
+    }
+    console.log(this.recipesService.getRecipes());
+  }
 }

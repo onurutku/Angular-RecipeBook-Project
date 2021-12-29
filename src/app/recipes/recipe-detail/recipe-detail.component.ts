@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import { RecipesService } from '../recipes.service';
@@ -17,7 +17,8 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private recipesServices: RecipesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
   toShoppingList(ingredients: Ingredient[]) {
     this.recipesServices.addIngredientsToShoppingList(ingredients);
@@ -30,5 +31,9 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
+  }
+  onDelete() {
+    this.recipesServices.deleteRecipe(this.clickedId);
+    this.router.navigate(['/recipes']);
   }
 }

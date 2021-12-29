@@ -1,0 +1,10 @@
+label {
+  font-weight: bold;
+}
+input.ng-invalid.ng-touched {
+  border: 1px red solid;
+}
+.message {
+  text-decoration: underline;
+  color: brown;
+}
