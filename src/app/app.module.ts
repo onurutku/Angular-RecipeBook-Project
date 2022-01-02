@@ -27,6 +27,7 @@ import { environment } from '../environments/environment';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { RecipesResolverService } from './recipes/recipes-resolver.service';
 import { AuthComponent } from './auth/auth.component';
+import { RecipesService } from './recipes/recipes.service';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { AuthComponent } from './auth/auth.component';
   ],
   providers: [
     ShoppingListService,
+    RecipesService,
     RecipeResolverService,
     RecipesResolverService,
   ],

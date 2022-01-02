@@ -17,6 +17,7 @@ import {
 export class RecipesService {
   recipeSelected = new Subject<Recipe>();
   recipesChanged = new Subject<Recipe[]>();
+  recipes: Recipe[] = [];
   tutorial: AngularFireObject<any>;
   constructor(
     private shoppingList: ShoppingListService,
@@ -28,17 +29,30 @@ export class RecipesService {
     this.shoppingList.addIngredients(ingredients);
   }
   deleteRecipe(sendedId: string) {
-    this.firebase.object('recipes/' + sendedId).remove();
+    this.firebase
+      .object('recipes/' + sendedId)
+      .remove()
+      .then(() => {
+        this.router.navigate(['/recipes']).then(() => {
+          window.location.reload();
+        });
+      });
   }
   updateRecipes(id: string, recipe: Recipe) {
-    this.firebase.object('recipes/' + id).set({
-      desc: recipe.desc,
-      description: recipe.description,
-      imagePath: recipe.imagePath,
-      name: recipe.name,
-      ingredients: recipe.ingredients,
-    });
-    this.router.navigate(['/recipes', id]);
+    this.firebase
+      .object('recipes/' + id)
+      .set({
+        desc: recipe.desc,
+        description: recipe.description,
+        imagePath: recipe.imagePath,
+        name: recipe.name,
+        ingredients: recipe.ingredients,
+      })
+      .then(() => {
+        this.router.navigate(['/recipes', id]).then(() => {
+          window.location.reload();
+        });
+      });
   }
   addRecipe(recipe: Recipe) {
     return this.http.post(
