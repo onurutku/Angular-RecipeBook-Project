@@ -12,7 +12,7 @@ import { Recipe } from './../recipe.model';
 export class RecipeEditComponent implements OnInit {
   editForm: FormGroup;
   message: string;
-  id: number;
+  id: string;
   recipe = <Recipe>{};
   editMode: boolean = false;
   constructor(
@@ -27,7 +27,7 @@ export class RecipeEditComponent implements OnInit {
       this.message = data['message'];
     });
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
+      this.id = params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
     });
@@ -35,7 +35,13 @@ export class RecipeEditComponent implements OnInit {
   private initForm() {
     const ingrediental = new FormArray([]);
     if (this.editMode === true) {
-      this.recipe = this.recipesService.getRecipe(this.id);
+      // this.recipesService.getRecipe(this.id).subscribe((data) => {
+      //   this.recipe = data;
+      // });
+      this.route.data.subscribe((data: Data) => {
+        this.recipe = data['recipe'];
+      });
+      // this.recipe = this.recipesService.getRecipe(this.id);
       if (this.recipe.ingredients) {
         for (let ingredient of this.recipe.ingredients) {
           ingrediental.push(
@@ -69,9 +75,8 @@ export class RecipeEditComponent implements OnInit {
     (this.editForm.get('ingredients') as FormArray).removeAt(index);
   }
   onSubmit() {
-    const generateId = Math.floor(Math.random() * 1000000);
     const editedRecipe = new Recipe(
-      generateId,
+      this.id,
       this.editForm.get('name').value,
       this.editForm.get('title').value,
       this.editForm.get('imagePath').value,
@@ -80,10 +85,11 @@ export class RecipeEditComponent implements OnInit {
     );
     if (this.editMode) {
       this.recipesService.updateRecipes(this.id, editedRecipe);
+      this.editMode = false;
     } else {
-      this.recipesService.addRecipe(editedRecipe);
-      this.router.navigate(['/recipes', generateId]);
+      this.recipesService.addRecipe(editedRecipe).subscribe((responseData) => {
+        this.router.navigate(['/recipes']);
+      });
     }
-    console.log(this.recipesService.getRecipes());
   }
 }

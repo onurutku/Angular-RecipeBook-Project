@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import { RecipesService } from '../recipes.service';
@@ -11,9 +11,10 @@ import { Recipe } from './../recipe.model';
   styleUrls: ['./recipe-detail.component.css'],
 })
 export class RecipeDetailComponent implements OnInit, OnDestroy {
-  clickedId: number;
+  clickedId: string;
   recipe: Recipe;
   paramsSubscription: Subscription;
+  dataSubs: Subscription;
 
   constructor(
     private recipesServices: RecipesService,
@@ -24,9 +25,11 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     this.recipesServices.addIngredientsToShoppingList(ingredients);
   }
   ngOnInit() {
+    this.dataSubs = this.route.data.subscribe((data: Data) => {
+      this.recipe = data['recipe'];
+    });
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
-      this.clickedId = +params['id'];
-      this.recipe = this.recipesServices.getRecipe(this.clickedId);
+      this.clickedId = params['id'];
     });
   }
   ngOnDestroy() {

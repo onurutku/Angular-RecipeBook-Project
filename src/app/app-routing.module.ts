@@ -8,13 +8,16 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipeResolverService } from './recipes/recipe-resolver.service';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
+import { RecipesResolverService } from './recipes/recipes-resolver.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
   {
     path: 'recipes',
     component: RecipesComponent,
-    resolve: { recipe: RecipeResolverService },
+    resolve: {
+      recipes: RecipesResolverService,
+    },
     children: [
       { path: '', component: RecipeStartComponent },
       {
@@ -22,10 +25,21 @@ const appRoutes: Routes = [
         component: RecipeEditComponent,
         data: { message: 'Add New Recipe' },
       },
-      { path: ':id', component: RecipeDetailComponent },
+      {
+        path: ':id',
+        component: RecipeDetailComponent,
+        resolve: {
+          recipe: RecipeResolverService,
+          recipes: RecipesResolverService,
+        },
+      },
       {
         path: ':id/edit',
         component: RecipeEditComponent,
+        resolve: {
+          recipe: RecipeResolverService,
+          recipes: RecipesResolverService,
+        },
         data: { message: 'Edit This Recipe' },
       },
     ],

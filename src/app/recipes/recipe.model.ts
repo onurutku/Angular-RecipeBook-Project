@@ -1,7 +1,7 @@
-import { Ingredient } from "../shared/ingredient.model";
+import { Ingredient } from '../shared/ingredient.model';
 export class Recipe {
   constructor(
-    public id: number,
+    public id: string,
     public name: string,
     public desc: string,
     public imagePath: string,

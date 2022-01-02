@@ -1,60 +1,61 @@
-<div *ngIf="recipe.id === clickedId">
-  <div class="row mt-3">
-    <div class="col-xs-12">
-      <img
-        style="max-height: 350px; width: 100%"
-        src="{{ recipe.imagePath }}"
-        alt=""
-        class="img-responsive"
-      />
-    </div>
+<!-- <div *ngIf="recipe.id === clickedId"> -->
+<div class="row">
+  <div class="col-xs-12">
+    <h1 id="recipeName">{{ recipe.name }}</h1>
   </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <h1>{{ recipe.name }}</h1>
-    </div>
+</div>
+<hr />
+<div class="row mt-3">
+  <div class="col-xs-12">
+    <img
+      style="max-height: 350px; width: 100%"
+      [src]="recipe.imagePath"
+      alt=""
+      class="img-responsive"
+    />
   </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="dropdown">
-        <button
-          class="btn btn-success dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          appDropdown
+</div>
+<br />
+<div class="row">
+  <div class="col-xs-12">
+    <div class="dropdown">
+      <button
+        class="btn btn-success dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        appDropdown
+      >
+        Dropdown button
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a (click)="toShoppingList(recipe.ingredients)" class="dropdown-item"
+          >To Shopping List</a
         >
-          Dropdown button
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a (click)="toShoppingList(recipe.ingredients)" class="dropdown-item"
-            >To Shopping List</a
-          >
-          <a
-            [routerLink]="['/recipes', recipe.id, 'edit']"
-            class="dropdown-item"
-            >Edit Recipe</a
-          >
-          <a (click)="onDelete()" class="dropdown-item">Delete Recipe</a>
-        </div>
+        <a [routerLink]="['/recipes', recipe.id, 'edit']" class="dropdown-item"
+          >Edit Recipe</a
+        >
+        <a (click)="onDelete()" class="dropdown-item">Delete Recipe</a>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12">{{ recipe.description }}</div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <ul class="list-group">
-        <li
-          *ngFor="let ingredient of recipe.ingredients"
-          class="list-group-item"
-        >
-          {{ ingredient.name }} - {{ ingredient.amount }}
-        </li>
-      </ul>
-    </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-xs-12">{{ recipe.description }}</div>
+</div>
+<br />
+<h5>Ingredients</h5>
+<hr />
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="list-group">
+      <li *ngFor="let ingredient of recipe.ingredients" class="list-group-item">
+        {{ ingredient.name }} - {{ ingredient.amount }}
+      </li>
+    </ul>
   </div>
 </div>
+<!-- </div> -->
