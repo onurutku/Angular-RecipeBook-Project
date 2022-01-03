@@ -44,7 +44,7 @@
       </ul>
       <ul class="navbar-nav">
         <li *ngIf="!isAuthenticated" routerLinkActive="active" class="nav-item">
-          <a class="nav-link link-light" [routerLink]="'auth'">Login</a>
+          <a class="nav-link link-light" [routerLink]="'auth'">Login/SignUp</a>
         </li>
         <li *ngIf="isAuthenticated" routerLinkActive="active" class="nav-item">
           <a class="nav-link link-light" (click)="onLogout()">Logout</a>
