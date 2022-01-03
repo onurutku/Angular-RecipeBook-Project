@@ -10,11 +10,13 @@ import { RecipeResolverService } from './recipes/recipe-resolver.service';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipesResolverService } from './recipes/recipes-resolver.service';
 import { AuthComponent } from './auth/auth.component';
+import { AuthGuardService } from './auth/auth-guard.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
   {
     path: 'recipes',
+    canActivate: [AuthGuardService],
     component: RecipesComponent,
     resolve: {
       recipes: RecipesResolverService,
@@ -45,7 +47,11 @@ const appRoutes: Routes = [
       },
     ],
   },
-  { path: 'shopping-list', component: ShoppingListComponent },
+  {
+    path: 'shopping-list',
+    canActivate: [AuthGuardService],
+    component: ShoppingListComponent,
+  },
   { path: 'auth', component: AuthComponent },
   {
     path: 'not-found',

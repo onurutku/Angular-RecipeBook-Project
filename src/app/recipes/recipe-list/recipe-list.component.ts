@@ -29,7 +29,6 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     //   }
     // );
     this.recipSubs = this.route.data.subscribe((data: Data) => {
-      console.log(data);
       this.recipes = data['recipes'];
     });
     // this.recipesService.getAllRecipe().subscribe((data: Recipe[]) => {

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a [routerLink]="''" class="navbar-brand">Recipe Book</a>
+    <a [routerLink]="'/recipes'" class="navbar-brand">Recipe Book</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -12,8 +12,11 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
+    <div
+      class="collapse navbar-collapse d-flex justify-content-end"
+      id="navbarSupportedContent"
+    >
+      <ul *ngIf="isAuthenticated" class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
         <li routerLinkActive="active" class="nav-item">
           <a class="nav-link" aria-current="page" [routerLink]="'recipes'"
             >Recipes</a
@@ -22,7 +25,7 @@
         <li routerLinkActive="active" class="nav-item">
           <a class="nav-link" [routerLink]="'shopping-list'">Shopping List</a>
         </li>
-        <li routerLinkActive="active" class="nav-item dropdown">
+        <!-- <li routerLinkActive="active" class="nav-item dropdown">
           <a
             appDropdown
             class="nav-link dropdown-toggle"
@@ -37,14 +40,16 @@
             <li><a class="dropdown-item">Save Data</a></li>
             <li><a class="dropdown-item">Fetch Data</a></li>
           </ul>
+        </li> -->
+      </ul>
+      <ul class="navbar-nav">
+        <li *ngIf="!isAuthenticated" routerLinkActive="active" class="nav-item">
+          <a class="nav-link link-light" [routerLink]="'auth'">Login</a>
+        </li>
+        <li *ngIf="isAuthenticated" routerLinkActive="active" class="nav-item">
+          <a class="nav-link link-light" (click)="onLogout()">Logout</a>
         </li>
       </ul>
-      <a
-        routerLinkActive="active"
-        class="nav-link link-light"
-        [routerLink]="'auth'"
-        >Login</a
-      >
     </div>
   </div>
 </nav>

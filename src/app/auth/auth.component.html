@@ -1,18 +1,58 @@
 <div class="container w-50 mt-5">
-  <div class="row">
+  <div *ngIf="isLoading" class="w-100 mt-5 d-flex justify-content-center">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  <div *ngIf="!isLoading" class="row">
     <div class="col-xs-12">
-      <form>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        <p>This e-mail address is already exist</p>
+      </div>
+      <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" class="form-control" type="text" />
+          <input
+            id="email"
+            class="form-control"
+            type="email"
+            [formControlName]="'email'"
+          />
+        </div>
+        <div
+          *ngIf="!authForm.get('email').valid && authForm.get('email').touched"
+          class="alert alert-warning rounded mt-1"
+        >
+          Please enter a valid email address
         </div>
         <div class="form-group">
           <label for="email">Password</label>
-          <input id="password" class="form-control" type="password" />
+          <input
+            id="password"
+            class="form-control"
+            type="password"
+            [formControlName]="'password'"
+          />
         </div>
+
+        <div
+          *ngIf="
+            !authForm.get('password').valid && authForm.get('password').touched
+          "
+          class="alert alert-warning rounded mt-1"
+        >
+          <p>Please enter a valid password</p>
+          <p>
+            At least 8 characters in length | a lowercase letter | an uppercase
+            letter | a number | a special character
+          </p>
+        </div>
+
         <br />
         <div class="float-end">
-          <button type="submit" class="btn btn-primary btn-sm">
+          <button
+            [disabled]="!authForm.valid"
+            type="submit"
+            class="btn btn-primary btn-sm"
+          >
             {{ loginMode ? "Login" : "Sign Up" }}
           </button>
           |
@@ -24,6 +64,7 @@
             {{ loginMode ? "Switch to Sign Up" : "Switch to Login" }}
           </button>
         </div>
+        <br />
       </form>
     </div>
   </div>
