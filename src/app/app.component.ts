@@ -6,15 +6,11 @@ import { AuthService } from './auth/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
   title = 'course project';
   kabak: Boolean = true;
   constructor(private authService: AuthService) {}
   ngOnInit(): void {
     this.authService.autoLogin();
-    // setTimeout(() => {
-    //   this.authService.logout();
-    // }, 360);
   }
-  ngOnChanges(changes: SimpleChanges): void {}
 }

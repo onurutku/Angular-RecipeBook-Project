@@ -39,7 +39,6 @@ export class AuthComponent implements OnInit {
       this.isLoading = true;
       this.authService.signIn(user).subscribe(
         (responseData) => {
-          console.log(responseData);
           this.isLoading = false;
           this.router.navigate(['/recipes']);
         },
@@ -51,7 +50,6 @@ export class AuthComponent implements OnInit {
       this.isLoading = true;
       this.authService.signUp(user).subscribe(
         (responseData) => {
-          console.log(responseData);
           this.isLoading = false;
           this.loginMode = true;
         },

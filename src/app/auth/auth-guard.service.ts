@@ -23,16 +23,6 @@ export class AuthGuardService implements CanActivate {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    // const statement = this.authService.user.pipe(
-    //   map((user) => {
-    //     return !!user;
-    //   })
-    // );
-    // if (statement) {
-    //   return true;
-    // } else {
-    //   this.router.navigate(['/auth']);
-    // }
     return this.authService.user.pipe(
       map((user) => {
         //değeri değiştirmeden true value'yu gerçek true false value'yu gerçek false'a çeviriyormuş.:S
@@ -44,5 +34,6 @@ export class AuthGuardService implements CanActivate {
         }
       })
     );
+    // return true;
   }
 }
