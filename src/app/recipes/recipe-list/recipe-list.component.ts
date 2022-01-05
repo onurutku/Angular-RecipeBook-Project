@@ -13,31 +13,26 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   // @Input() recipes: Recipe[];
   recipes: Recipe[] = [];
   recipSubs: Subscription;
+  listener: Subscription;
   constructor(
     private recipesService: RecipesService,
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    // this.recipSubs = this.recipesService
-    //   .getAllRecipe()
-    //   .subscribe((recipes: Recipe[]) => {
-    //     this.recipes = recipes;
-    //   });
-    // this.recipSubs = this.recipesService.recipesChanged.subscribe(
-    //   (recipes: Recipe[]) => {
-    //     this.recipes = recipes;
-    //   }
-    // );
     this.recipSubs = this.route.data.subscribe((data: Data) => {
       this.recipes = data['recipes'];
     });
-    // this.recipesService.getAllRecipe().subscribe((data: Recipe[]) => {
-    //   this.recipes = data;
-    //   // console.log(this.recipes);
-    // });
-    // this.recipes = this.recipesService.getRecipes();
+    this.listener = this.recipesService.recipesChanged.subscribe(() => {
+      this.recipesChanged();
+    });
   }
   ngOnDestroy() {
     this.recipSubs.unsubscribe();
+    this.listener.unsubscribe();
+  }
+  recipesChanged() {
+    this.recipesService.getAllRecipe().subscribe((allRecipes) => {
+      this.recipes = allRecipes;
+    });
   }
 }

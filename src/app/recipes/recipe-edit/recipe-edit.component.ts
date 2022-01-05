@@ -88,9 +88,9 @@ export class RecipeEditComponent implements OnInit {
       this.editMode = false;
     } else {
       this.recipesService.addRecipe(editedRecipe).subscribe((responseData) => {
-        this.router.navigate(['/recipes']).then(() => {
-          window.location.reload();
-        });
+        console.log(responseData);
+        this.router.navigate(['/recipes']);
+        this.recipesService.recipesChanged.next(true);
       });
     }
   }
